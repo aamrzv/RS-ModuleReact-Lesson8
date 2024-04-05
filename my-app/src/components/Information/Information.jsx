@@ -1,14 +1,9 @@
 import { InformationLayout } from './InformationLayout';
 import React from 'react';
-import { useState } from 'react';
-import { store } from '../../store';
+import { useSelector } from 'react-redux';
 
 export const Information = () => {
-	const [state, setState] = useState(store.getState());
-	store.subscribe(() => {
-		setState(store.getState());
-	});
-	console.log(state);
+	const state = useSelector((state) => state);
 	const info = () => {
 		if (state.isGameEnded & !state.isDraw) {
 			return `Победа: ${state.currentPlayer} 🏆`;

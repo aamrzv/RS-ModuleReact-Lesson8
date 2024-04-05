@@ -1,13 +1,10 @@
 import { FieldLayout } from './FieldLayout';
-import { useState } from 'react';
-import { store } from '../../store';
 import { checkDraw, checkWin } from '../../utils';
+import { useSelector, useDispatch } from 'react-redux';
 
 export const Field = () => {
-	const [state, setState] = useState(store.getState());
-	store.subscribe(() => {
-		setState(store.getState());
-	});
+	const dispatch = useDispatch();
+	const state = useSelector((state) => state);
 	const handleBtnClick = (id) => {
 		const newField = [...state.field];
 		let moveIsMade = false;
@@ -20,7 +17,7 @@ export const Field = () => {
 		const isDraw = checkDraw(newField);
 		const currentPlayer = moveIsMade & !checkWin(newField) ? (state.currentPlayer === 'X' ? 'O' : 'X') : state.currentPlayer;
 
-		store.dispatch({
+		dispatch({
 			type: 'setCurrentPlayer',
 			payload: { newField, isGameEnded, isDraw, currentPlayer },
 		});
